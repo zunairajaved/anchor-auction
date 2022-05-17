@@ -22,90 +22,89 @@ describe("start auction", () => {
   // const program = anchor.workspace.Auction;
   const feePayerPubkey = provider.wallet.publicKey;
 
-//   it("should fail when owner of item isn't pda", async () => {
-//     let auction = new anchor.web3.Account();
-//     let seller = new anchor.web3.Account();
-//     let itemPubkey = await createMint(provider, feePayerPubkey);
-//     let currencyPubkey = await createMint(provider, feePayerPubkey);
-//     let itemHolderPubkey = await createTokenAccount(provider, itemPubkey, new anchor.web3.Account().publicKey);
-//     let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, new anchor.web3.Account().publicKey);
-//     try {
-//       await program.rpc.createAuction(new anchor.BN(1000), {
-//         accounts: {
-//           auction: auction.publicKey,
-//           seller: seller.publicKey,
-//           itemHolder: itemHolderPubkey,
-//           currencyHolder: currencyHolderPubkey,
-//           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-//         },
-//         signers: [auction],
-//         instructions: [await program.account.auction.createInstruction(auction)],
-//       });
-//       assert.ok(false);
-//     } catch (e) { }
-//   });
+  it("should fail when owner of item isn't pda", async () => {
+    let auction = new anchor.web3.Account();
+    let seller = new anchor.web3.Account();
+    let itemPubkey = await createMint(provider, feePayerPubkey);
+    let currencyPubkey = await createMint(provider, feePayerPubkey);
+    let itemHolderPubkey = await createTokenAccount(provider, itemPubkey, new anchor.web3.Account().publicKey);
+    let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, new anchor.web3.Account().publicKey);
+    try {
+      await program.rpc.createAuction(new anchor.BN(1000), {
+        accounts: {
+          auction: auction.publicKey,
+          seller: seller.publicKey,
+          itemHolder: itemHolderPubkey,
+          currencyHolder: currencyHolderPubkey,
+          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+        },
+        signers: [auction],
+        instructions: [await program.account.auction.createInstruction(auction)],
+      });
+      assert.ok(false);
+    } catch (e) { }
+  });
 
-//   it("should fail when owner of currency isn't pda", async () => {
-//     let auction = new anchor.web3.Account();
-//     let seller = new anchor.web3.Account();
-//     let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
-//     let itemPubkey = await createMint(provider, feePayerPubkey);
-//     let currencyPubkey = await createMint(provider, feePayerPubkey);
-//     let itemHolderPubkey = await createTokenAccount(provider, itemPubkey, pda);
-//     let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, new anchor.web3.Account().publicKey);
-//     try {
-//       await program.rpc.createAuction(new anchor.BN(1000), {
-//         accounts: {
-//           auction: auction.publicKey,
-//           seller: seller.publicKey,
-//           itemHolder: itemHolderPubkey,
-//           currencyHolder: currencyHolderPubkey,
-//           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-//         },
-//         signers: [auction],
-//         instructions: [await program.account.auction.createInstruction(auction)],
-//       });
-//       assert.ok(false);
-//     } catch (e) { }
-//   });
+  it("should fail when owner of currency isn't pda", async () => {
+    let auction = new anchor.web3.Account();
+    let seller = new anchor.web3.Account();
+    let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
+    let itemPubkey = await createMint(provider, feePayerPubkey);
+    let currencyPubkey = await createMint(provider, feePayerPubkey);
+    let itemHolderPubkey = await createTokenAccount(provider, itemPubkey, pda);
+    let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, new anchor.web3.Account().publicKey);
+    try {
+      await program.rpc.createAuction(new anchor.BN(1000), {
+        accounts: {
+          auction: auction.publicKey,
+          seller: seller.publicKey,
+          itemHolder: itemHolderPubkey,
+          currencyHolder: currencyHolderPubkey,
+          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+        },
+        signers: [auction],
+        instructions: [await program.account.auction.createInstruction(auction)],
+      });
+      assert.ok(false);
+    } catch (e) { }
+  });
 
-//   it("should fail when init same auction account twice", async () => {
-//     let baseAccount = anchor.web3.Keypair.generate();
-//     let [pda] = await anchor.web3.PublicKey.findProgramAddress([provider.wallet.publicKey.toBuffer()], programId);
-//     let itmePubkey = await createMint(provider, feePayerPubkey);
-//     let itemHolderPubkey = await createTokenAccount(provider, itmePubkey, pda);
-//     let currencyPubkey = await createMint(provider, feePayerPubkey);
-//     let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
-//     let startPrice = 1000;
+  it("should fail when init same auction account twice", async () => {
+    let baseAccount = anchor.web3.Keypair.generate();
+  let [pda] = await anchor.web3.PublicKey.findProgramAddress([provider.wallet.publicKey.toBuffer()], program.programId);
+  let itmePubkey = await createMint(provider, feePayerPubkey);
+  let itemHolderPubkey = await createTokenAccount(provider, itmePubkey, pda);
+  let currencyPubkey = await createMint(provider, feePayerPubkey);
+  let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
 
-//  let result = await program.rpc.createAuction(new anchor.BN(startPrice), {
-//       accounts: {
-//         auction: baseAccount.publicKey,
-//         seller: provider.wallet.publicKey,
-//         itemHolder: itemHolderPubkey,
-//         currencyHolder: currencyHolderPubkey,
-//         rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-//         systemProgram: SystemProgram.programId,
-//       },
-//       signers: [baseAccount],
-//     });
-//     console.log(result);
+  await program.rpc.createAuction(new anchor.BN(1000), {
+    accounts: {
+      auction: baseAccount.publicKey,
+      seller: provider.wallet.publicKey,
+      itemHolder: itemHolderPubkey,
+      currencyHolder: currencyHolderPubkey,
+      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: SystemProgram.programId,
+    },
+    signers: [baseAccount],
+  });
 
-//     try {
-//       let result =     await program.rpc.createAuction(new anchor.BN(1000), {
-//       accounts: {
-//           auction: baseAccount.publicKey,
-//           seller: provider.wallet.publicKey,
-//           itemHolder: itemHolderPubkey,
-//           currencyHolder: currencyHolderPubkey,
-//           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-//           systemProgram: SystemProgram.programId,
-//         },
-//       });
-//       console.log("try",result);
-//       assert.ok(false);
-//     } catch (e) { }
-//   });
+    try {
+      let result =     await program.rpc.createAuction(new anchor.BN(1000), {
+        accounts: {
+          auction: baseAccount.publicKey,
+          seller: provider.wallet.publicKey,
+          itemHolder: itemHolderPubkey,
+          currencyHolder: currencyHolderPubkey,
+          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount],
+      });
+      console.log("try",result);
+      assert.ok(false);
+    } catch (e) { }
+  });
 
 it("init auction", async () => {
   let baseAccount = anchor.web3.Keypair.generate();
@@ -135,9 +134,68 @@ let seller = provider.wallet.publicKey;
   assert.ok(auctionAccount.currencyHolder.equals(currencyHolderPubkey));
   assert.ok(auctionAccount.bidder.equals(provider.wallet.publicKey));
   // assert.ok(auctionAccount.refundReceiver.equals(emptyPubkey));
-  console.log("👀 Price ", auctionAccount.price.toString());
   assert.ok(auctionAccount.price == 1000);
 });
+
+// it("should fail when bid a lower number", async () => {
+//   // const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
+
+//   let baseAccount = anchor.web3.Keypair.generate();
+//   // let seller = provider.wallet.publicKey;
+//     let [pda] = await anchor.web3.PublicKey.findProgramAddress([provider.wallet.publicKey.toBuffer()], program.programId);
+//     let itmePubkey = await createMint(provider, feePayerPubkey);
+//     let itemHolderPubkey = await createTokenAccount(provider, itmePubkey, pda);
+//     let currencyPubkey = await createMint(provider, feePayerPubkey);
+//     let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
+  
+//     await program.rpc.createAuction(new anchor.BN(1000), {
+//       accounts: {
+//         auction: baseAccount.publicKey,
+//         seller: provider.wallet.publicKey,
+//         itemHolder: itemHolderPubkey,
+//         currencyHolder: currencyHolderPubkey,
+//         rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+//         systemProgram: SystemProgram.programId,
+//       },
+//       signers: [baseAccount],
+//     });
+  
+//     const auctionAccount = await program.account.auction.fetch(baseAccount.publicKey);
+
+//   let bidder = new anchor.web3.Account();
+//   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, 2000);
+
+//   try {
+//     await program.rpc.bid(new anchor.BN(1000), {
+//       accounts: {
+//         auction: baseAccount.publicKey,
+//         bidder: bidder.publicKey,
+//         from: bidderCurrencyHolder,
+//         auctionSinger: bidder.publicKey,
+//         currencyHolder: auctionAccount.currencyHolder,
+//         currencyHolderAuth: pda,
+//         oriRefundReceiver: auctionAccount.refundReceiver,
+//         tokenProgram: TOKEN_PROGRAM_ID,
+//       },
+//       signers: [bidder],
+//     });
+//     assert.ok(false);
+//   } catch (err) {
+//     console.log(err);
+//     // const errMsg = "your bid price is too low";
+//     // assert.strictEqual(err.toString(), errMsg);
+//     // assert.strictEqual(err.msg, errMsg);
+//     // assert.strictEqual(err.code, 100);
+//   }
+// });
+
+
+
+
+
+
+
+
 
 
 // it("should fail when bid a lower number", async () => {
@@ -147,10 +205,8 @@ let seller = provider.wallet.publicKey;
 //     let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
 //     let itmePubkey = await createMint(provider, feePayerPubkey);
 //     let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
-//     let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
 //     let currencyPubkey = await createMint(provider, feePayerPubkey);
 //     let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
-//     let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
   
 //     await program.rpc.createAuction(new anchor.BN(1000), {
 //       accounts: {
@@ -166,17 +222,19 @@ let seller = provider.wallet.publicKey;
 
 //   let auctionAccount = await program.account.auction.fetch(auction.publicKey);
 
-//   let bidder = provider.wallet;
-//   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, 2000);
+//   // let bidder = anchor.web3.Keypair.generate();
+//   let bid = anchor.web3.Keypair.generate();
+//   let test = anchor.web3.Keypair.generate();
+//   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, provider.wallet.publicKey, 2000);
 
 //   try {
 //     await program.rpc.createBid(new anchor.BN(10), {
 //       accounts: {
 //         auction: auction.publicKey,
-//         bid:anchor.BN(10),
-//         bidder: bidder.publicKey,
+//         bid:bid.publicKey,
+//         bidder: provider.wallet.publicKey,
 //         from: bidderCurrencyHolder,
-//         fromAuth: bidder.publicKey,
+//         auctionSinger: pda,
 //         currencyHolder: auctionAccount.currencyHolder,
 //         currencyHolderAuth: pda,
 //         oriRefundReceiver: auctionAccount.refundReceiver,
@@ -187,96 +245,123 @@ let seller = provider.wallet.publicKey;
 //     });
 //     assert.ok(false);
 //   } catch (err) {
-//     const errMsg = "your bid price is too low";
-//     assert.strictEqual(err.toString(), errMsg);
-//     assert.strictEqual(err.msg, errMsg);
-//     assert.strictEqual(err.code, 100);
+//     console.log("error",err);
+//     // const errMsg = "your bid price is too low";
+//     // assert.strictEqual(err.toString(), errMsg);
+//     // assert.strictEqual(err.msg, errMsg);
+//     // assert.strictEqual(err.code, 100);
 //   }
 // });
 
   
-  it("first bid", async () => {
-    // const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
+  // it("first bid", async () => {
+  //   // const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
 
-    let auction = anchor.web3.Keypair.generate();
-        let seller = provider.wallet
-        let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
-        let itmePubkey = await createMint(provider, feePayerPubkey);
-        let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
-        let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
-        let currencyPubkey = await createMint(provider, feePayerPubkey);
-        let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
-        let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
+  //   let auction = anchor.web3.Keypair.generate();
+  //       let seller = provider.wallet
+  //       let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
+  //       let itmePubkey = await createMint(provider, feePayerPubkey);
+  //       let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
+  //       let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
+  //       let currencyPubkey = await createMint(provider, feePayerPubkey);
+  //       let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
+  //       let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
       
-        await program.rpc.createAuction(new anchor.BN(1000), {
-          accounts: {
-            auction: auction.publicKey,
-            seller: seller.publicKey,
-            itemHolder: itemHolderPubkey,
-            currencyHolder: currencyHolderPubkey,
-            rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-            systemProgram: SystemProgram.programId,
-          },
-          signers: [auction],
-        });
+  //       await program.rpc.createAuction(new anchor.BN(1000), {
+  //         accounts: {
+  //           auction: auction.publicKey,
+  //           seller: seller.publicKey,
+  //           itemHolder: itemHolderPubkey,
+  //           currencyHolder: currencyHolderPubkey,
+  //           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+  //           systemProgram: SystemProgram.programId,
+  //         },
+  //         signers: [auction],
+  //       });
     
-      let auctionAccount = await program.account.auction.fetch(auction.publicKey);
+  //     let auctionAccount = await program.account.auction.fetch(auction.publicKey);
     
-    let bidder = provider.wallet;
-    let bid = anchor.web3.Keypair.generate();
-    let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, 2000);
+  //   let bidder = anchor.web3.Keypair.generate();
 
-    await program.rpc.createBid(new anchor.BN(2000), {
-      accounts: {
-        auction: auction.publicKey,
-        bid: bid.publicKey,
-        bidder: bidder.publicKey,
-        from: bidderCurrencyHolder,
-        fromAuth: bidder.publicKey,
-        currencyHolder: auctionAccount.currencyHolder,
-        auctionSinger: pda,
-        currencyHolderAuth: pda,
-        oriRefundReceiver: auctionAccount.refundReceiver,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId,
-      },
-      signers: [bidder.payer],
-    });
-
-    auctionAccount = await program.account.auction(auction.publicKey);
-    assert(auctionAccount.bidder.equals(bidder.publicKey));
-    assert(auctionAccount.refundReceiver.equals(bidderCurrencyHolder));
-    assert(auctionAccount.price == 2000);
-    assert((await getTokenAccount(provider, bidderCurrencyHolder)).amount == 0);
-    assert((await getTokenAccount(provider, auctionAccount.currencyHolder)).amount == 2000);
-  });
-
-  // it("second bid", async () => {
-  //   const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
-
-  //   let auctionAccount = await program.account.auction(auction.publicKey);
-
-  //   let bidder = new anchor.web3.Account();
+  //   let bid = anchor.web3.Keypair.generate();
   //   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, 2000);
-
-  //   await program.rpc.bid(new anchor.BN(2000), {
+  //   await program.rpc.createBid(new anchor.BN(2000), {
   //     accounts: {
   //       auction: auction.publicKey,
+  //       bid: bid.publicKey,
   //       bidder: bidder.publicKey,
   //       from: bidderCurrencyHolder,
-  //       fromAuth: bidder.publicKey,
+  //       currencyHolder: auctionAccount.currencyHolder,
+  //       auctionSinger: pda,
+  //       currencyHolderAuth: pda,
+  //       oriRefundReceiver: auctionAccount.refundReceiver,
+  //       tokenProgram: TOKEN_PROGRAM_ID,
+  //       systemProgram: SystemProgram.programId,
+  //     },
+  //     signers: [provider.wallet.payer],
+  //   });
+
+  //   auctionAccount = await program.account.auction(auction.publicKey);
+  //   assert(auctionAccount.bidder.equals(bidder.publicKey));
+  //   assert(auctionAccount.refundReceiver.equals(bidderCurrencyHolder));
+  //   assert(auctionAccount.price == 2000);
+  //   assert((await getTokenAccount(provider, bidderCurrencyHolder)).amount == 0);
+  //   assert((await getTokenAccount(provider, auctionAccount.currencyHolder)).amount == 2000);
+  // });
+
+  // it("second bid", async () => {
+  //   // const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
+  //   let auction = anchor.web3.Keypair.generate();
+  //         let seller = provider.wallet
+  //         let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
+  //         let itmePubkey = await createMint(provider, feePayerPubkey);
+  //         let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
+  //         let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
+  //         let currencyPubkey = await createMint(provider, feePayerPubkey);
+  //         let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
+  //         let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
+        
+  //         await program.rpc.createAuction(new anchor.BN(1000), {
+  //           accounts: {
+  //             auction: auction.publicKey,
+  //             seller: seller.publicKey,
+  //             itemHolder: itemHolderPubkey,
+  //             currencyHolder: currencyHolderPubkey,
+  //             rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+  //             systemProgram: SystemProgram.programId,
+  //           },
+  //           signers: [auction],
+  //         });
+      
+  //       let auctionAccount = await program.account.auction.fetch(auction.publicKey);
+      
+  //     // let bidder = anchor.web3.Keypair.generate();
+  //   // let auctionAccount = await program.account.auction(auction.publicKey);
+
+  //   let bidder = provider.wallet;
+  //   let bid = new anchor.web3.Account();
+  //   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, 2000);
+
+  //   await program.rpc.createBid(new anchor.BN(2000), {
+  //     accounts: {
+  //       auction: auction.publicKey,
+  //       bid:bid.publicKey,
+  //       bidder: provider.wallet.publicKey,
+  //       from: bidderCurrencyHolder,
+  //       auctionSinger: bidder.publicKey,
   //       currencyHolder: auctionAccount.currencyHolder,
   //       currencyHolderAuth: pda,
   //       oriRefundReceiver: auctionAccount.refundReceiver,
   //       tokenProgram: TOKEN_PROGRAM_ID,
+  //       systemProgram: SystemProgram.programId,
   //     },
-  //     signers: [bidder],
+  //     signers: [provider.wallet.payer],
   //   });
 
   //   let bidder2 = new anchor.web3.Account();
   //   let bidder2CurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder2.publicKey, 3000);
 
-  //   auctionAccount = await program.account.auction(auction.publicKey);
+  //   // auctionAccount = await program.account.auction(auction.publicKey);
   //   await program.rpc.bid(new anchor.BN(3000), {
   //     accounts: {
   //       auction: auction.publicKey,
@@ -287,11 +372,12 @@ let seller = provider.wallet.publicKey;
   //       currencyHolderAuth: pda,
   //       oriRefundReceiver: auctionAccount.refundReceiver,
   //       tokenProgram: TOKEN_PROGRAM_ID,
+  //       systemProgram: SystemProgram.programId,
   //     },
   //     signers: [bidder2],
   //   });
 
-  //   accountAccount = await program.account.auction(auction.publicKey);
+  //   // accountAccount = await program.account.auction(auction.publicKey);
   //   assert(accountAccount.bidder.equals(bidder2.publicKey));
   //   assert(accountAccount.refundReceiver.equals(bidder2CurrencyHolder));
   //   assert(accountAccount.price == 3000);
@@ -299,157 +385,180 @@ let seller = provider.wallet.publicKey;
   //   assert((await getTokenAccount(provider, bidder2CurrencyHolder)).amount == 0);
   //   assert((await getTokenAccount(provider, accountAccount.currencyHolder)).amount == 3000);
   // });
-// it("close a auction when no one bid", async () => {
-//   let auction = anchor.web3.Keypair.generate();
-//   let seller = provider.wallet
-//   let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
-//   let itmePubkey = await createMint(provider, feePayerPubkey);
-//   let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
-//   let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
-//   let currencyPubkey = await createMint(provider, feePayerPubkey);
-//   let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
-//   let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
-
-//   await program.rpc.createAuction(new anchor.BN(1000), {
-//     accounts: {
-//       auction: auction.publicKey,
-//       seller: seller.publicKey,
-//       itemHolder: itemHolderPubkey,
-//       currencyHolder: currencyHolderPubkey,
-//       rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-//       systemProgram: SystemProgram.programId,
-//     },
-//     signers: [auction],
-//   });
-
-//   await program.rpc.closeAuction({
-//     accounts: {
-//       auction: auction.publicKey,
-//         seller: seller.publicKey,
-//         itemHolder: itemHolderPubkey,
-//         auctionSinger: pda,
-//         itemReceiver: itemReceiver,
-//         currencyHolder: currencyHolderPubkey,
-//         currencyHolderAuth: pda,
-//         currencyReceiver: currencyReceiver,
-//         tokenProgram: TOKEN_PROGRAM_ID,
-//         systemProgram: SystemProgram.programId,
-//     },
-//     signers: [seller.payer],
-//   });
-
-//   const auctionAccount = await program.account.auction.fetch(auction.publicKey);
-//   assert.ok(!auctionAccount.ongoing);
-
-//   let tokenAccount = await getTokenAccount(provider, itemHolderPubkey);
-//   assert(tokenAccount.amount == 0);
-
-//   tokenAccount = await getTokenAccount(provider, itemReceiver);
-//   assert(tokenAccount.amount == 1);
-
-//   tokenAccount = await getTokenAccount(provider, currencyHolderPubkey);
-//   assert(tokenAccount.amount == 0);
-
-//   tokenAccount = await getTokenAccount(provider, currencyReceiver);
-//   assert(tokenAccount.amount == 0);
-// });
-
-
-
-
-  // it("close a auction", async () => {
-  //   const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
-
-  //   const { bidder, bidderCurrencyHolder } = await Bid(provider, program, auction, currencyPubkey, 2000);
-
-  //   let itemReceiver = await createTokenAccountWithBalance(provider, itemPubkey, bidder.publicKey, 0);
-  //   let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
-
-  //   let auctionAccount = await program.account.auction(auction.publicKey);
-  //   await program.rpc.closeAuction({
-  //     accounts: {
-  //       auction: auction.publicKey,
-  //       seller: seller.publicKey,
-  //       itemHolder: auctionAccount.itemHolder,
-  //       itemHolderAuth: pda,
-  //       itemReceiver: itemReceiver,
-  //       currencyHolder: auctionAccount.currencyHolder,
-  //       currencyHolderAuth: pda,
-  //       currencyReceiver: currencyReceiver,
-  //       tokenProgram: TOKEN_PROGRAM_ID,
-  //     },
-  //     signers: [seller],
-  //   });
-
-  //   auctionAccount = await program.account.auction(auction.publicKey);
-  //   let itemHolder = auctionAccount.itemHolder;
-  //   let currencyHolder = auctionAccount.currencyHolder;
-  //   assert.ok(!auctionAccount.ongoing);
-  //   assert.ok((await getTokenAccount(provider, itemHolder)).amount == 0);
-  //   assert.ok((await getTokenAccount(provider, itemReceiver)).amount == 1);
-  //   assert.ok((await getTokenAccount(provider, currencyHolder)).amount == 0);
-  //   assert.ok((await getTokenAccount(provider, currencyReceiver)).amount == 2000);
-  // });
-});
-
-async function CreateAuction(provider, program) {
-  const feePayerPubkey = provider.wallet.publicKey;
-  let baseAccount = new anchor.web3.Account();
-  let seller = provider.wallet;
+it("close a auction when no one bid", async () => {
+  let auction = anchor.web3.Keypair.generate();
+  let seller = provider.wallet
   let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
   let itmePubkey = await createMint(provider, feePayerPubkey);
   let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
+  let itemReceiver = await createTokenAccountWithBalance(provider, itmePubkey, seller.publicKey, 0);
   let currencyPubkey = await createMint(provider, feePayerPubkey);
   let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
-console.log(baseAccount);
+  let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
+
   await program.rpc.createAuction(new anchor.BN(1000), {
     accounts: {
-      auction: baseAccount.publicKey,
+      auction: auction.publicKey,
       seller: seller.publicKey,
       itemHolder: itemHolderPubkey,
       currencyHolder: currencyHolderPubkey,
       rent: anchor.web3.SYSVAR_RENT_PUBKEY,
       systemProgram: SystemProgram.programId,
     },
-    signers: [baseAccount],
+    signers: [auction],
   });
-  const auctionAccount = await program.account.auction.fetch(baseAccount.publicKey);
-  return {
-    auction: baseAccount,
-    seller: seller,
-    pda: pda,
-    itemPubkey: itmePubkey,
-    currencyPubkey: currencyPubkey,
-    auctionAccount:auctionAccount
-  };
-}
 
-async function Bid(provider, program, auction, currencyPubkey, bidNum) {
-  let bidder = provider.wallet;
-  let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, bidNum);
-  let auctionAccount = await program.account.auction(auction);
-  let [pda] = await anchor.web3.PublicKey.findProgramAddress([auctionAccount.seller.toBuffer()], program.programId);
-
-  await program.rpc.bid(new anchor.BN(bidNum), {
+  await program.rpc.closeAuction({
     accounts: {
       auction: auction.publicKey,
-      bidder: bidder.publicKey,
-      from: bidderCurrencyHolder,
-      fromAuth: bidder.publicKey,
-      currencyHolder: auctionAccount.currencyHolder,
-      currencyHolderAuth: pda,
-      oriRefundReceiver: auctionAccount.refundReceiver,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      systemProgram: SystemProgram.programId,
+        seller: seller.publicKey,
+        itemHolder: itemHolderPubkey,
+        auctionSinger: pda,
+        itemReceiver: itemReceiver,
+        currencyHolder: currencyHolderPubkey,
+        currencyHolderAuth: pda,
+        currencyReceiver: currencyReceiver,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
     },
-    signers: [bidder.payer],
+    signers: [seller.payer],
   });
 
-  return {
-    bidder: bidder,
-    bidderCurrencyHolder: bidderCurrencyHolder,
-  };
-}
+  const auctionAccount = await program.account.auction.fetch(auction.publicKey);
+  assert.ok(!auctionAccount.ongoing);
+
+  let tokenAccount = await getTokenAccount(provider, itemHolderPubkey);
+  assert(tokenAccount.amount == 0);
+
+  tokenAccount = await getTokenAccount(provider, itemReceiver);
+  assert(tokenAccount.amount == 1);
+
+  tokenAccount = await getTokenAccount(provider, currencyHolderPubkey);
+  assert(tokenAccount.amount == 0);
+
+  tokenAccount = await getTokenAccount(provider, currencyReceiver);
+  assert(tokenAccount.amount == 0);
+});
+
+  it("close a auction", async () => {
+    // const { auction, seller, pda, itemPubkey, currencyPubkey } = await CreateAuction(provider, program);
+    let auction = anchor.web3.Keypair.generate();
+      let seller = provider.wallet
+      let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
+      let itemPubkey = await createMint(provider, feePayerPubkey);
+      let itemHolderPubkey = await createTokenAccountWithBalance(provider, itemPubkey, pda, 1);
+      // let itemReceiver = await createTokenAccountWithBalance(provider, itemPubkey, seller.publicKey, 0);
+      let currencyPubkey = await createMint(provider, feePayerPubkey);
+      let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
+      // let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
+    
+      await program.rpc.createAuction(new anchor.BN(1000), {
+        accounts: {
+          auction: auction.publicKey,
+          seller: seller.publicKey,
+          itemHolder: itemHolderPubkey,
+          currencyHolder: currencyHolderPubkey,
+          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [auction],
+      });
+    
+
+    // const { bidder, bidderCurrencyHolder } = await Bid(provider, program, auction, currencyPubkey, 2000);
+    let bidder = provider.wallet;
+    let itemReceiver = await createTokenAccountWithBalance(provider, itemPubkey, bidder.publicKey, 0);
+    let currencyReceiver = await createTokenAccountWithBalance(provider, currencyPubkey, seller.publicKey, 0);
+
+    let auctionAccount = await program.account.auction.fetch(auction.publicKey);
+    console.log("bef",auctionAccount);
+    await program.rpc.closeAuction({
+      accounts: {
+        auction: auction.publicKey,
+        seller: seller.publicKey,
+        itemHolder: auctionAccount.itemHolder,
+        auctionSinger: pda,
+        itemReceiver: itemReceiver,
+        currencyHolder: auctionAccount.currencyHolder,
+        currencyHolderAuth: pda,
+        currencyReceiver: currencyReceiver,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+      },
+      signers: [provider.wallet.payer],
+    });
+
+    let auctionAccountclose = await program.account.auction.fetch(auction.publicKey);
+    console.log("close",auctionAccountclose);
+    console.log("val",auctionAccountclose.ongoing)
+    let itemHolder = auctionAccountclose.itemHolder;
+    let currencyHolder = auctionAccountclose.currencyHolder;
+    assert.ok(!auctionAccountclose.ongoing);
+    assert.ok((await getTokenAccount(provider, itemHolder)).amount == 0);
+    assert.ok((await getTokenAccount(provider, itemReceiver)).amount == 1);
+    assert.ok((await getTokenAccount(provider, currencyHolder)).amount == 0);
+    // assert.ok((await getTokenAccount(provider, currencyReceiver)).amount == 2000);
+  });
+});
+
+// async function CreateAuction(provider, program) {
+//   const feePayerPubkey = provider.wallet.publicKey;
+//   let baseAccount = new anchor.web3.Account();
+//   let seller = provider.wallet;
+//   let [pda] = await anchor.web3.PublicKey.findProgramAddress([seller.publicKey.toBuffer()], program.programId);
+//   let itmePubkey = await createMint(provider, feePayerPubkey);
+//   let itemHolderPubkey = await createTokenAccountWithBalance(provider, itmePubkey, pda, 1);
+//   let currencyPubkey = await createMint(provider, feePayerPubkey);
+//   let currencyHolderPubkey = await createTokenAccount(provider, currencyPubkey, pda);
+// console.log(baseAccount);
+//   await program.rpc.createAuction(new anchor.BN(1000), {
+//     accounts: {
+//       auction: baseAccount.publicKey,
+//       seller: seller.publicKey,
+//       itemHolder: itemHolderPubkey,
+//       currencyHolder: currencyHolderPubkey,
+//       rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+//       systemProgram: SystemProgram.programId,
+//     },
+//     signers: [baseAccount],
+//   });
+//   const auctionAccount = await program.account.auction.fetch(baseAccount.publicKey);
+//   return {
+//     auction: baseAccount,
+//     seller: seller,
+//     pda: pda,
+//     itemPubkey: itmePubkey,
+//     currencyPubkey: currencyPubkey,
+//     auctionAccount:auctionAccount
+//   };
+// }
+
+// async function Bid(provider, program, auction, currencyPubkey, bidNum) {
+//   let bidder = provider.wallet;
+//   let bidderCurrencyHolder = await createTokenAccountWithBalance(provider, currencyPubkey, bidder.publicKey, bidNum);
+//   let auctionAccount = await program.account.auction(auction);
+//   let [pda] = await anchor.web3.PublicKey.findProgramAddress([auctionAccount.seller.toBuffer()], program.programId);
+
+//   await program.rpc.bid(new anchor.BN(bidNum), {
+//     accounts: {
+//       auction: auction.publicKey,
+//       bidder: bidder.publicKey,
+//       from: bidderCurrencyHolder,
+//       fromAuth: bidder.publicKey,
+//       currencyHolder: auctionAccount.currencyHolder,
+//       currencyHolderAuth: pda,
+//       oriRefundReceiver: auctionAccount.refundReceiver,
+//       tokenProgram: TOKEN_PROGRAM_ID,
+//       systemProgram: SystemProgram.programId,
+//     },
+//     signers: [bidder.payer],
+//   });
+
+//   return {
+//     bidder: bidder,
+//     bidderCurrencyHolder: bidderCurrencyHolder,
+//   };
+// }
 // SPL token client boilerplate for test initialization. Everything below here is
 // mostly irrelevant to the point of the example.
 
