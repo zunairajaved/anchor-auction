@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.localnet]
-anchor_auction = "4gBimFyVziw8LLDDADg4atmv2np4836deDJmAvU6aVJB"
+anchor_auction = "EXvQ4Q2MaXvyPXQpaWcYZzeiWdoNEGPQD84jRkj9j4W6"
 
 [registry]
 url = "https://anchor.projectserum.com"
